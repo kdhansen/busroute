@@ -102,6 +102,7 @@ public:
 
 };
 
+// This is where we start
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "busroute");
