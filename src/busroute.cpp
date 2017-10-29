@@ -21,6 +21,7 @@ private:
         move_base_msgs::MoveBaseGoal goal;
         goal.target_pose.header.frame_id = goal_point.header.frame_id;
         goal.target_pose.pose.position = goal_point.point;
+        goal.target_pose.pose.orientation.w = 1.0;
         client.sendGoal(goal,
             boost::bind(&Route::_target_reached_cb, this, _1, _2));
         _send_markers();
@@ -89,11 +90,11 @@ private:
 
 public:
     Route() :
-        client("move_base"), stops_initialized(0)
+        stops_initialized(0), client("move_base")
     {
         ros::NodeHandle n;
         marker_pub = n.advertise<visualization_msgs::MarkerArray>(
-            "visualization_marker_array", 1);
+            "busroute_markers", 1);
         click_sub = n.subscribe( "clicked_point", 100,
             &Route::_clicked_point_cb, this);
     };
